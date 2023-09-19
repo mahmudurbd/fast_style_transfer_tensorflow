@@ -8,6 +8,7 @@ import ModeSelector from "../components/modeSelector/ModeSelector";
 import AdditionalInfo from "../components/additionalInfo/AdditionalInfo";
 import CameraDisplay from "../components/cameraDisplay/CameraDisplay";
 import PhotoDisplay from "../components/photoDisplay/PhotoDisplay";
+import styles from "./home.module.css";
 
 const useStyles = makeStyles({
   root: {
@@ -49,7 +50,7 @@ const HomePage = () => {
     imageToStyle: string;
   }>({
     camera: CameraState.stopped,
-    mode: "camera",
+    mode: "photo",
     styleImage: "/images/The_Great_Wave_off_Kanagawa.jpg",
     imageToStyle: "/images/turtle.jpg",
   });
@@ -167,82 +168,128 @@ const HomePage = () => {
       <FastStyleTransferModel>
         {(doStyleTransfer) => {
           return (
-            <Container className={classes.cardGrid} key="container">
-              <Grid
-                container
-                spacing={{xs: 2, md: 3}}
-                columns={{xs: 12, sm: 12, md: 12}}
-                key="dasboard">
-                <Grid item xs={12} sm={4} md={4}>
-                  <Card className={classes.card}>
-                    <ImageSelector
-                      listKey="styleImages"
-                      list={predefinedStylesList}
-                      uploadImageLabel="Upload Style"
-                      setStateCallback={updateStyleImageCallback}
-                    />
-                    {state.mode == "photo" && (
+            <>
+              <div>
+                <div className={styles.container} key="dasboard">
+                  <div className={styles.inputFields}>
+                    <Card className={classes.card}>
                       <ImageSelector
-                        listKey="imagesToStyle"
-                        list={predefinedImagesToStyle}
-                        uploadImageLabel="Upload Image"
-                        setStateCallback={updateImageToStyleCallback}
+                        listKey="styleImages"
+                        list={predefinedStylesList}
+                        uploadImageLabel="Upload Style"
+                        setStateCallback={updateStyleImageCallback}
+                      />
+                    </Card>
+                    <Card>
+                      {state.mode == "photo" && (
+                        <ImageSelector
+                          listKey="imagesToStyle"
+                          list={predefinedImagesToStyle}
+                          uploadImageLabel="Upload Image"
+                          setStateCallback={updateImageToStyleCallback}
+                        />
+                      )}
+                    </Card>
+                  </div>
+                  <div className={styles.result}>
+                    {state.mode == "camera" && (
+                      <CameraDisplay
+                        styleImageUrl={state.styleImage}
+                        updateCameraStateCallback={updateCameraStateCallback}
+                        cameraState={state.camera}
+                        doStyleTransferCallback={doStyleTransfer}
                       />
                     )}
+                    {state.mode == "photo" && (
+                      <PhotoDisplay
+                        styleImageUrl={state.styleImage}
+                        imageToStyleUrl={state.imageToStyle}
+                        doStyleTransferCallback={doStyleTransfer}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
 
-                    <Grid
-                      container
-                      rowSpacing={1}
-                      alignItems="flex-start"
-                      justifyContent="space-evenly"
-                      p={2}>
-                      <Grid item xs={12} md={12}>
-                        <ModeSelector
-                          mode={state.mode}
-                          setModeToCallback={setModeToCallback}
+              {/* <Container className={classes.cardGrid} key="container">
+                <Grid
+                  container
+                  spacing={{xs: 2, md: 3}}
+                  columns={{xs: 12, sm: 12, md: 12}}
+                  key="dasboard">
+                  <Grid item xs={12} sm={4} md={4}>
+                    <Card className={classes.card}>
+                      <ImageSelector
+                        listKey="styleImages"
+                        list={predefinedStylesList}
+                        uploadImageLabel="Upload Style"
+                        setStateCallback={updateStyleImageCallback}
+                      />
+                      {state.mode == "photo" && (
+                        <ImageSelector
+                          listKey="imagesToStyle"
+                          list={predefinedImagesToStyle}
+                          uploadImageLabel="Upload Image"
+                          setStateCallback={updateImageToStyleCallback}
                         />
-                      </Grid>
-
-                      {state.mode == "camera" && (
-                        <Grid item xs={12} md={6}>
-                          {state.camera != CameraState.start &&
-                            state.camera != CameraState.started && (
-                              <Button variant="outlined" onClick={startCamera}>
-                                Start Camera
-                              </Button>
-                            )}
-                          {(state.camera == CameraState.start ||
-                            state.camera == CameraState.started) && (
-                            <Button variant="outlined" onClick={stopCamera}>
-                              Stop Camera
-                            </Button>
-                          )}
-                        </Grid>
                       )}
 
-                      <AdditionalInfo />
-                    </Grid>
-                  </Card>
+                      <Grid
+                        container
+                        rowSpacing={1}
+                        alignItems="flex-start"
+                        justifyContent="space-evenly"
+                        p={2}>
+                        <Grid item xs={12} md={12}>
+                          <ModeSelector
+                            mode={state.mode}
+                            setModeToCallback={setModeToCallback}
+                          />
+                        </Grid>
+
+                        {state.mode == "camera" && (
+                          <Grid item xs={12} md={6}>
+                            {state.camera != CameraState.start &&
+                              state.camera != CameraState.started && (
+                                <Button
+                                  variant="outlined"
+                                  onClick={startCamera}>
+                                  Start Camera
+                                </Button>
+                              )}
+                            {(state.camera == CameraState.start ||
+                              state.camera == CameraState.started) && (
+                              <Button variant="outlined" onClick={stopCamera}>
+                                Stop Camera
+                              </Button>
+                            )}
+                          </Grid>
+                        )}
+
+                        <AdditionalInfo />
+                      </Grid>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={8}>
+                    {state.mode == "camera" && (
+                      <CameraDisplay
+                        styleImageUrl={state.styleImage}
+                        updateCameraStateCallback={updateCameraStateCallback}
+                        cameraState={state.camera}
+                        doStyleTransferCallback={doStyleTransfer}
+                      />
+                    )}
+                    {state.mode == "photo" && (
+                      <PhotoDisplay
+                        styleImageUrl={state.styleImage}
+                        imageToStyleUrl={state.imageToStyle}
+                        doStyleTransferCallback={doStyleTransfer}
+                      />
+                    )}
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6} md={8}>
-                  {state.mode == "camera" && (
-                    <CameraDisplay
-                      styleImageUrl={state.styleImage}
-                      updateCameraStateCallback={updateCameraStateCallback}
-                      cameraState={state.camera}
-                      doStyleTransferCallback={doStyleTransfer}
-                    />
-                  )}
-                  {state.mode == "photo" && (
-                    <PhotoDisplay
-                      styleImageUrl={state.styleImage}
-                      imageToStyleUrl={state.imageToStyle}
-                      doStyleTransferCallback={doStyleTransfer}
-                    />
-                  )}
-                </Grid>
-              </Grid>
-            </Container>
+              </Container> */}
+            </>
           );
         }}
       </FastStyleTransferModel>
