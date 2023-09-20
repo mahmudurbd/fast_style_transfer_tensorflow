@@ -102,38 +102,6 @@ const ImageSelector = ({
         height={300}
       />
 
-      {/* <div style={{marginTop: "20px", marginBottom: "20px"}}>
-        <div>
-          {list.map((image, index) => {
-            return (
-              <img
-                width="50"
-                height="50"
-                key={"imageOption" + index}
-                src={image.url}
-                onClick={imageHadler}
-              />
-            );
-          })}
-        </div>
-
-        <Grid item xs={12} md={6} key="uploadMedia">
-          <label htmlFor={listKey + "-upload-image"}>
-            <input
-              style={{display: "none"}}
-              id={listKey + "-upload-image"}
-              name={listKey + "-upload-image"}
-              type="file"
-              onChange={uploadImage}
-            />
-
-            <Button variant="outlined" component="span">
-              {uploadImageLabel}
-            </Button>
-          </label>
-        </Grid>
-      </div> */}
-
       {/* <Grid
         container
         rowSpacing={1}

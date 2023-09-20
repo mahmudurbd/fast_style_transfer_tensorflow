@@ -68,6 +68,34 @@ const PhotoDisplay = ({
     }
   };
 
+  const handleDownloadImage = () => {
+    let imageCanvas = document.querySelector(
+      "#canvasContainer2"
+    ) as HTMLCanvasElement;
+
+    let imageCanvasCtx = imageCanvas.getContext("2d");
+
+    let downloadImgData = imageCanvasCtx?.getImageData(
+      0,
+      0,
+      imageCanvas.width,
+      imageCanvas.height
+    );
+
+    if (downloadImgData) {
+      // Convert image data to a data URL
+      const dataURL = imageCanvas.toDataURL("image/png");
+
+      // Create a download link
+      const a = document.createElement("a");
+      a.href = dataURL;
+      a.download = "image.png"; // Set the desired file name
+
+      // Trigger the download
+      a.click();
+    }
+  };
+
   return (
     <>
       <Grid
@@ -79,6 +107,12 @@ const PhotoDisplay = ({
           <Card className={styles.card}>
             <canvas id="canvasContainer2" className={styles.canvasPhoto} />
           </Card>
+          <Button
+            sx={{marginTop: "10px"}}
+            variant="contained"
+            onClick={handleDownloadImage}>
+            Download
+          </Button>
         </Grid>
       </Grid>
     </>
