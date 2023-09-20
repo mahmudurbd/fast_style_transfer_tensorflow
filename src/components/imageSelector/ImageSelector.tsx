@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useState} from "react";
 // import * as tf from "@tensorflow/tfjs";
 // import { Tensor3D, Tensor4D, } from '@tensorflow/tfjs';
@@ -76,10 +78,16 @@ const ImageSelector = ({
     evt: React.ChangeEvent<{name?: string; value: unknown}>
   ) => {
     const value = evt.target.value as string;
-    //console.log("Changing state:" + value);
+    console.log("Changing state:" + value);
 
     setImage(value);
   };
+
+  // const imageHadler = (e: any) => {
+  //   const url = e?.target?.attributes["src"]?.nodeValue;
+  //   console.log(url);
+  //   setImage(url);
+  // };
 
   return (
     <>
@@ -91,7 +99,96 @@ const ImageSelector = ({
         component="img"
         onLoad={notifyImageLoaded}
         key="selectorImage"
+        height={300}
       />
+
+      {/* <div style={{marginTop: "20px", marginBottom: "20px"}}>
+        <div>
+          {list.map((image, index) => {
+            return (
+              <img
+                width="50"
+                height="50"
+                key={"imageOption" + index}
+                src={image.url}
+                onClick={imageHadler}
+              />
+            );
+          })}
+        </div>
+
+        <Grid item xs={12} md={6} key="uploadMedia">
+          <label htmlFor={listKey + "-upload-image"}>
+            <input
+              style={{display: "none"}}
+              id={listKey + "-upload-image"}
+              name={listKey + "-upload-image"}
+              type="file"
+              onChange={uploadImage}
+            />
+
+            <Button variant="outlined" component="span">
+              {uploadImageLabel}
+            </Button>
+          </label>
+        </Grid>
+      </div> */}
+
+      {/* <Grid
+        container
+        rowSpacing={1}
+        alignItems="flex-start"
+        justifyContent="space-evenly"
+        p={2}
+        key="selector">
+        <Grid item xs={12} md={6} key="uploadMedia">
+          <label htmlFor={listKey + "-upload-image"}>
+            <input
+              style={{display: "none"}}
+              id={listKey + "-upload-image"}
+              name={listKey + "-upload-image"}
+              type="file"
+              onChange={uploadImage}
+            />
+
+            <Button variant="outlined" component="span">
+              {uploadImageLabel}
+            </Button>
+          </label>
+        </Grid>
+        <Grid item xs={12} md={6} key="imageList">
+          <NativeSelect
+            defaultValue={image}
+            key="random1"
+            inputProps={{
+              name: "image",
+              id: listKey,
+            }}
+            onChange={selectImage}>
+            {list.map((image, index) => {
+              return (
+                <option key={"imageOption" + index} value={image.url}>
+                  {image.name}
+                </option>
+              );
+            })}
+          </NativeSelect>
+          <div>
+            {list.map((image, index) => {
+              return (
+                <img
+                  width="50"
+                  height="50"
+                  key={"imageOption" + index}
+                  src={image.url}
+                  onClick={imageHadler}
+                />
+              );
+            })}
+          </div>
+        </Grid>
+      </Grid> */}
+
       <Grid
         container
         rowSpacing={1}

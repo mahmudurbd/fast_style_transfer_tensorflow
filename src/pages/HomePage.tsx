@@ -1,14 +1,17 @@
+/* eslint-disable no-var */
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import FastStyleTransferModel from "../components/fastStyleTransferModel/FastStyleTransferModel";
 import {Button, Card, Container, Grid} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import ImageSelector from "../components/imageSelector/ImageSelector";
-import {useState} from "react";
+import {useState, useRef} from "react";
 import ModeSelector from "../components/modeSelector/ModeSelector";
 import AdditionalInfo from "../components/additionalInfo/AdditionalInfo";
 import CameraDisplay from "../components/cameraDisplay/CameraDisplay";
 import PhotoDisplay from "../components/photoDisplay/PhotoDisplay";
 import styles from "./home.module.css";
+import {loadImage} from "../modules/utils";
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +24,7 @@ const useStyles = makeStyles({
   },
 
   card: {
-    height: "100%",
+    marginBottom: "15px",
     display: "flex",
     flexDirection: "column",
   },
@@ -167,6 +170,74 @@ const HomePage = () => {
     <>
       <FastStyleTransferModel>
         {(doStyleTransfer) => {
+          {
+            const resizeAndStylizeImage = (
+              imageToStyle: HTMLImageElement,
+              styleImage: HTMLImageElement,
+              imageCanvas: HTMLCanvasElement,
+              targetCanvas: HTMLCanvasElement
+            ) => {
+              let imageCanvasCtx = imageCanvas.getContext("2d");
+              let targetCanvasCtx = targetCanvas.getContext("2d");
+
+              let imageAspectRatio = imageToStyle.height / imageToStyle.width;
+              imageCanvas.height = imageCanvas.width * imageAspectRatio;
+              console.log("New targetCanvas.height:" + imageCanvas.height);
+              //const imgSize = Math.min(inputImage.width, inputImage.height);
+              // The following two lines yield a central based cropping.
+              // They can both be amended to be 0, if you wish it to be
+              // a left based cropped image.
+              //const left = (inputImage.width - imgSize) / 2;
+              //const top = (inputImage.height - imgSize) / 2;
+              //var left = 0; // If you wish left based cropping instead.
+              //var top = 0; // If you wish left based cropping instead.
+              if (imageCanvasCtx != null) {
+                imageCanvasCtx.drawImage(
+                  imageToStyle,
+                  0,
+                  0,
+                  imageToStyle.width,
+                  imageToStyle.height,
+                  0,
+                  0,
+                  imageCanvas.width,
+                  imageCanvas.height
+                );
+                let imageToStyleImgData = imageCanvasCtx.getImageData(
+                  0,
+                  0,
+                  imageCanvas.width,
+                  imageCanvas.height
+                );
+                doStyleTransfer(imageToStyleImgData, styleImage, targetCanvas);
+              }
+            };
+
+            var stylizeImage = async () => {
+              let canvas1 = document.querySelector(
+                "#canvasContainer1"
+              ) as HTMLCanvasElement;
+              let canvas2 = document.querySelector(
+                "#canvasContainer2"
+              ) as HTMLCanvasElement;
+
+              let styleImageP = loadImage(state.styleImage);
+              let imageToStyleP = loadImage(state.imageToStyle);
+
+              Promise.all([styleImageP, imageToStyleP])
+                .then((images) => {
+                  let styleImage = images[0];
+                  let imageToStyle = images[1];
+                  resizeAndStylizeImage(
+                    imageToStyle,
+                    styleImage,
+                    canvas1,
+                    canvas2
+                  );
+                })
+                .catch((err) => console.error(err));
+            };
+          }
           return (
             <>
               <div>
@@ -190,6 +261,13 @@ const HomePage = () => {
                         />
                       )}
                     </Card>
+
+                    <Button
+                      sx={{width: "100%", mt: "20px"}}
+                      variant="contained"
+                      onClick={() => stylizeImage()}>
+                      GENERATE
+                    </Button>
                   </div>
                   <div className={styles.result}>
                     {state.mode == "camera" && (
