@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
 import {useEffect} from "react";
 
-import {Card, Grid} from "@mui/material";
+import {Button, Card, Grid} from "@mui/material";
 import {loadImage} from "../../modules/utils";
 import styles from "./photo.module.css";
 
@@ -66,26 +67,6 @@ const PhotoDisplay = ({
       doStyleTransferCallback(imageToStyleImgData, styleImage, targetCanvas);
     }
   };
-
-  useEffect(() => {
-    let canvas1 = document.querySelector(
-      "#canvasContainer1"
-    ) as HTMLCanvasElement;
-    let canvas2 = document.querySelector(
-      "#canvasContainer2"
-    ) as HTMLCanvasElement;
-
-    let styleImageP = loadImage(styleImageUrl);
-    let imageToStyleP = loadImage(imageToStyleUrl);
-
-    Promise.all([styleImageP, imageToStyleP])
-      .then((images) => {
-        let styleImage = images[0];
-        let imageToStyle = images[1];
-        resizeAndStylizeImage(imageToStyle, styleImage, canvas1, canvas2);
-      })
-      .catch((err) => console.error(err));
-  });
 
   return (
     <>
