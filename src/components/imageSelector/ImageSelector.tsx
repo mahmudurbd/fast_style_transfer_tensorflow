@@ -83,123 +83,81 @@ const ImageSelector = ({
     setImage(value);
   };
 
-  // const imageHadler = (e: any) => {
-  //   const url = e?.target?.attributes["src"]?.nodeValue;
-  //   console.log(url);
-  //   setImage(url);
-  // };
+  const imageHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const url = e.currentTarget.getAttribute('src') as string
+    setImage(url)
+  }
 
   return (
     <>
       <CardMedia
-        id="image"
+        id='image'
         className={classes.cardMedia}
         image={image}
-        title="Style Image"
-        component="img"
+        title='Style Image'
+        component='img'
         onLoad={notifyImageLoaded}
-        key="selectorImage"
+        key='selectorImage'
         height={300}
       />
-
-      {/* <Grid
+      <Grid
         container
         rowSpacing={1}
-        alignItems="flex-start"
-        justifyContent="space-evenly"
+        alignItems='flex-start'
+        justifyContent='space-evenly'
         p={2}
-        key="selector">
-        <Grid item xs={12} md={6} key="uploadMedia">
-          <label htmlFor={listKey + "-upload-image"}>
+        key='selector'
+      >
+        <Grid item xs={12} md={6} key='uploadMedia'>
+          <label htmlFor={listKey + '-upload-image'}>
             <input
-              style={{display: "none"}}
-              id={listKey + "-upload-image"}
-              name={listKey + "-upload-image"}
-              type="file"
+              style={{ display: 'none' }}
+              id={listKey + '-upload-image'}
+              name={listKey + '-upload-image'}
+              type='file'
               onChange={uploadImage}
             />
 
-            <Button variant="outlined" component="span">
+            <Button variant='outlined' component='span'>
               {uploadImageLabel}
             </Button>
           </label>
         </Grid>
-        <Grid item xs={12} md={6} key="imageList">
+        <Grid item xs={12} md={6} key='imageList'>
           <NativeSelect
             defaultValue={image}
-            key="random1"
+            key='random1'
             inputProps={{
-              name: "image",
+              name: 'image',
               id: listKey,
             }}
-            onChange={selectImage}>
+            onChange={selectImage}
+          >
             {list.map((image, index) => {
               return (
-                <option key={"imageOption" + index} value={image.url}>
+                <option key={'imageOption' + index} value={image.url}>
                   {image.name}
                 </option>
-              );
+              )
             })}
           </NativeSelect>
           <div>
             {list.map((image, index) => {
               return (
                 <img
-                  width="50"
-                  height="50"
-                  key={"imageOption" + index}
+                  width='50'
+                  height='50'
+                  key={'imageOption' + index}
                   src={image.url}
-                  onClick={imageHadler}
+                  onClick={imageHandler}
                 />
-              );
+              )
             })}
           </div>
         </Grid>
-      </Grid> */}
-
-      <Grid
-        container
-        rowSpacing={1}
-        alignItems="flex-start"
-        justifyContent="space-evenly"
-        p={2}
-        key="selector">
-        <Grid item xs={12} md={6} key="uploadMedia">
-          <label htmlFor={listKey + "-upload-image"}>
-            <input
-              style={{display: "none"}}
-              id={listKey + "-upload-image"}
-              name={listKey + "-upload-image"}
-              type="file"
-              onChange={uploadImage}
-            />
-
-            <Button variant="outlined" component="span">
-              {uploadImageLabel}
-            </Button>
-          </label>
-        </Grid>
-        <Grid item xs={12} md={6} key="imageList">
-          <NativeSelect
-            defaultValue={image}
-            key="random1"
-            inputProps={{
-              name: "image",
-              id: listKey,
-            }}
-            onChange={selectImage}>
-            {list.map((image, index) => {
-              return (
-                <option key={"imageOption" + index} value={image.url}>
-                  {image.name}
-                </option>
-              );
-            })}
-          </NativeSelect>
-        </Grid>
       </Grid>
     </>
-  );
+  )
 };
 
 export default ImageSelector;

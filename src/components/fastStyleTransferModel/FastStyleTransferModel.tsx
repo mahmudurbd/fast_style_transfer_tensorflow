@@ -142,9 +142,13 @@ const FastStyleTransferModel = ({children}: Props) => {
     <>
       {!model && <LoadingModel />}
 
-      {model && [children(doStyleTransferCallback)]}
+      {model && (
+        <React.Fragment key='unique-key'>
+          {children(doStyleTransferCallback)}
+        </React.Fragment>
+      )}
     </>
-  );
+  )
 };
 
 export default FastStyleTransferModel;
