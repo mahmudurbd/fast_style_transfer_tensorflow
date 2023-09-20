@@ -133,7 +133,6 @@ const FastStyleTransferModel = ({children}: Props) => {
     console.log("Loading model!");
     loadModel().then((loadedModel: tf.GraphModel) => {
       console.log("Finished loading model");
-      const model = loadedModel;
       setModel(loadedModel);
     });
   }, []);

@@ -1,33 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {useState} from "react";
+import React, { useState } from 'react'
 // import * as tf from "@tensorflow/tfjs";
 // import { Tensor3D, Tensor4D, } from '@tensorflow/tfjs';
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from '@mui/styles'
 // import Box from '@mui/material/Box';
 // import Modal from '@mui/material/Modal';
 // import CircularProgress from '@mui/material/CircularProgress';
-import {Button, CardMedia, Grid, NativeSelect} from "@mui/material";
+import { Button, CardMedia, Grid, NativeSelect } from '@mui/material'
+import Carousel from 'react-material-ui-carousel'
 
 const useStyles = makeStyles({
   root: {
-    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
     borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
     height: 48,
   },
 
   cardMedia: {},
-});
+})
 
 type Props = {
-  listKey: string;
-  list: {name: string; url: string}[];
-  uploadImageLabel: string;
-  setStateCallback: (styleImage: string) => void;
-};
+  listKey: string
+  list: { name: string; url: string }[]
+  uploadImageLabel: string
+  setStateCallback: (styleImage: string) => void
+}
 
 const ImageSelector = ({
   listKey,
@@ -35,53 +36,51 @@ const ImageSelector = ({
   uploadImageLabel,
   setStateCallback,
 }: Props) => {
-  const [image, setImage] = useState(list[0].url as string);
+  const [image, setImage] = useState(list[0].url as string)
 
   const uploadImage = (
-    evt: React.ChangeEvent<{name?: string; value: unknown}>
+    evt: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
-    const tgt = evt.target as HTMLInputElement;
-    const files = tgt.files;
+    const tgt = evt.target as HTMLInputElement
+    const files = tgt.files
 
     // FileReader support
     if (FileReader && files && files.length) {
-      const fr = new FileReader();
+      const fr = new FileReader()
       fr.onload = function () {
         //let targetCanvas = document.getElementById(evt.target.getAttribute("imgid"));
         //resizeAndSquareImage(fr.result, targetCanvas);
-        console.log("key=" + listKey);
-        const imagesList = document.getElementById(
-          listKey
-        ) as HTMLSelectElement;
+        console.log('key=' + listKey)
+        const imagesList = document.getElementById(listKey) as HTMLSelectElement
 
         if (files && files[0] != null) {
-          const option = document.createElement("option");
-          option.text = files[0].name;
-          option.value = String(fr.result);
-          imagesList.add(option, 0);
-          imagesList.selectedIndex = 0;
-          imagesList.dispatchEvent(new Event("change", {bubbles: true}));
+          const option = document.createElement('option')
+          option.text = files[0].name
+          option.value = String(fr.result)
+          imagesList.add(option, 0)
+          imagesList.selectedIndex = 0
+          imagesList.dispatchEvent(new Event('change', { bubbles: true }))
         }
-      };
-      fr.readAsDataURL(files[0]);
+      }
+      fr.readAsDataURL(files[0])
 
       //doStyleTransfer();
     }
-  };
-  const classes = useStyles();
+  }
+  const classes = useStyles()
 
   const notifyImageLoaded = () => {
-    setStateCallback(image);
-  };
+    setStateCallback(image)
+  }
 
   const selectImage = (
-    evt: React.ChangeEvent<{name?: string; value: unknown}>
+    evt: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
-    const value = evt.target.value as string;
-    console.log("Changing state:" + value);
+    const value = evt.target.value as string
+    console.log('Changing state:' + value)
 
-    setImage(value);
-  };
+    setImage(value)
+  }
 
   const imageHandler = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     const url = e.currentTarget.getAttribute('src') as string
@@ -141,23 +140,31 @@ const ImageSelector = ({
               )
             })}
           </NativeSelect>
-          <div>
+        </Grid>
+
+        <Grid item xs={12} md={6} key='carousel'>
+          <Carousel
+            key='carousel'
+            autoPlay={false}
+            animation='slide'
+            navButtonsAlwaysVisible={true}
+          >
             {list.map((image, index) => {
               return (
                 <img
-                  width='50'
-                  height='50'
+                  width='100%'
+                  height='200'
                   key={'imageOption' + index}
                   src={image.url}
                   onClick={imageHandler}
                 />
               )
             })}
-          </div>
+          </Carousel>
         </Grid>
       </Grid>
     </>
   )
-};
+}
 
-export default ImageSelector;
+export default ImageSelector
