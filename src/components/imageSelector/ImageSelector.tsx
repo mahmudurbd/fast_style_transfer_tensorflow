@@ -107,7 +107,7 @@ const ImageSelector = ({
         p={2}
         key='selector'
       >
-        <Grid item xs={12} md={12} key='uploadMedia'>
+        <Grid item xs={12} md={6} key='uploadMedia'>
           <label htmlFor={listKey + '-upload-image'}>
             <input
               style={{ display: 'none' }}
@@ -117,12 +117,14 @@ const ImageSelector = ({
               onChange={uploadImage}
             />
 
-            <Button variant='outlined' component='span'>
+            <Button variant='outlined' component='span'
+            
+            >
               {uploadImageLabel}
             </Button>
           </label>
         </Grid>
-        <Grid item xs={12} md={12} key='imageList'>
+        <Grid item xs={12} md={6} key='imageList'>
           <NativeSelect
             defaultValue={image}
             key='random1'
@@ -142,7 +144,7 @@ const ImageSelector = ({
           </NativeSelect>
         </Grid>
 
-        <Grid item xs={12} md={12} key='carousel'>
+        <Grid item xs={12} md={12} key='carousel' mt={2}>
           <Carousel
             key='carousel'
             autoPlay={false}
