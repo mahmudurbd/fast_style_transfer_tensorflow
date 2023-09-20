@@ -50,3 +50,9 @@
 .lightText {
   color: #666;
 }
+
+@media only screen and (max-width: 575px){
+  .heading2Xl {
+    font-size: 1.5rem;
+  }
+}
