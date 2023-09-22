@@ -243,25 +243,32 @@ const HomePage = () => {
               <div>
                 <div className={styles.container} key="dasboard">
                   <div className={styles.inputFields}>
-                    <Card className={classes.card}>
-                      <ImageSelector
-                        listKey="styleImages"
-                        list={predefinedStylesList}
-                        uploadImageLabel="Upload Style"
-                        setStateCallback={updateStyleImageCallback}
-                      />
-                    </Card>
-                    <Card>
-                      {state.mode == "photo" && (
+                    <div className={styles.imgWraper}>
+                      <h3>Content Image</h3>
+                      <Card>
+                        {state.mode == "photo" && (
+                          <ImageSelector
+                            listKey="imagesToStyle"
+                            list={predefinedImagesToStyle}
+                            uploadImageLabel="Upload Image"
+                            setStateCallback={updateImageToStyleCallback}
+                          />
+                        )}
+                      </Card>
+                    </div>
+                    <div className={styles.imgWraper}>
+                      <h3>Style Image</h3>
+                      <Card className={classes.card}>
                         <ImageSelector
-                          listKey="imagesToStyle"
-                          list={predefinedImagesToStyle}
-                          uploadImageLabel="Upload Image"
-                          setStateCallback={updateImageToStyleCallback}
+                          listKey="styleImages"
+                          list={predefinedStylesList}
+                          uploadImageLabel="Upload Style"
+                          setStateCallback={updateStyleImageCallback}
                         />
-                      )}
-                    </Card>
-
+                      </Card>
+                    </div>
+                  </div>
+                  <div className={styles.button}>
                     <Button
                       sx={{width: "100%", mt: "20px"}}
                       variant="contained"
