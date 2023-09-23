@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import {useEffect} from "react";
+import { useEffect } from 'react'
 
-import {Button, Card, Grid} from "@mui/material";
-import {loadImage} from "../../modules/utils";
-import styles from "./photo.module.css";
+import { Button, Card, Grid } from '@mui/material'
+import { loadImage } from '../../modules/utils'
+import styles from './photo.module.css'
 
 type Props = {
-  styleImageUrl: string;
-  imageToStyleUrl: string;
+  styleImageUrl: string
+  imageToStyleUrl: string
   doStyleTransferCallback: (
     imageToStyle: ImageData,
     styleImage: HTMLImageElement,
     canvasDest: HTMLCanvasElement
-  ) => void;
-};
+  ) => void
+}
 
 //let styleImage: HTMLImageElement;
 
@@ -32,12 +32,12 @@ const PhotoDisplay = ({
     imageCanvas: HTMLCanvasElement,
     targetCanvas: HTMLCanvasElement
   ) => {
-    let imageCanvasCtx = imageCanvas.getContext("2d");
-    let targetCanvasCtx = targetCanvas.getContext("2d");
+    let imageCanvasCtx = imageCanvas.getContext('2d')
+    let targetCanvasCtx = targetCanvas.getContext('2d')
 
-    let imageAspectRatio = imageToStyle.height / imageToStyle.width;
-    imageCanvas.height = imageCanvas.width * imageAspectRatio;
-    console.log("New targetCanvas.height:" + imageCanvas.height);
+    let imageAspectRatio = imageToStyle.height / imageToStyle.width
+    imageCanvas.height = imageCanvas.width * imageAspectRatio
+    console.log('New targetCanvas.height:' + imageCanvas.height)
     //const imgSize = Math.min(inputImage.width, inputImage.height);
     // The following two lines yield a central based cropping.
     // They can both be amended to be 0, if you wish it to be
@@ -57,66 +57,68 @@ const PhotoDisplay = ({
         0,
         imageCanvas.width,
         imageCanvas.height
-      );
+      )
       let imageToStyleImgData = imageCanvasCtx.getImageData(
         0,
         0,
         imageCanvas.width,
         imageCanvas.height
-      );
-      doStyleTransferCallback(imageToStyleImgData, styleImage, targetCanvas);
+      )
+      doStyleTransferCallback(imageToStyleImgData, styleImage, targetCanvas)
     }
-  };
+  }
 
   const handleDownloadImage = () => {
     let imageCanvas = document.querySelector(
-      "#canvasContainer2"
-    ) as HTMLCanvasElement;
+      '#canvasContainer2'
+    ) as HTMLCanvasElement
 
-    let imageCanvasCtx = imageCanvas.getContext("2d");
+    let imageCanvasCtx = imageCanvas.getContext('2d')
 
     let downloadImgData = imageCanvasCtx?.getImageData(
       0,
       0,
       imageCanvas.width,
       imageCanvas.height
-    );
+    )
 
     if (downloadImgData) {
       // Convert image data to a data URL
-      const dataURL = imageCanvas.toDataURL("image/png");
+      const dataURL = imageCanvas.toDataURL('image/png')
 
       // Create a download link
-      const a = document.createElement("a");
-      a.href = dataURL;
-      a.download = "image.png"; // Set the desired file name
+      const a = document.createElement('a')
+      a.href = dataURL
+      a.download = 'image.png' // Set the desired file name
 
       // Trigger the download
-      a.click();
+      a.click()
     }
-  };
+  }
 
   return (
     <>
       <Grid
         container
-        spacing={{xs: 2, md: 3}}
-        columns={{xs: 12, sm: 12, md: 12}}>
-        <canvas id="canvasContainer1" className={styles.canvasHidden} />
-        <Grid key="canvasContainer2" item xs={12} sm={12} md={12}>
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 12, sm: 12, md: 12 }}
+      >
+        <canvas id='canvasContainer1' className={styles.canvasHidden} />
+        <Grid key='canvasContainer2' item xs={12} sm={12} md={12}>
           <Card className={styles.card}>
-            <canvas id="canvasContainer2" className={styles.canvasPhoto} />
+            <canvas id='canvasContainer2' className={styles.canvasPhoto} />
           </Card>
           <Button
-            sx={{marginTop: "10px"}}
-            variant="contained"
-            onClick={handleDownloadImage}>
+            variant='contained'
+            sx={{ width: '100%', mt: 2 }}
+            onClick={handleDownloadImage}
+          >
             Download
           </Button>
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default PhotoDisplay;
+export default PhotoDisplay

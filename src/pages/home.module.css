@@ -1,12 +1,4 @@
-.mode {
-}
 .container {
-  /* display: grid;
-  grid-template-columns: 2.5fr 3fr;
-  gap: 150px;
-  margin-left: 40px;
-  margin-right: 40px; */
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -14,11 +6,7 @@
 .inputFields {
   width: 30%;
 }
-.imgWraper {
-}
-.button {
-  margin-top: 10rem;
-}
+
 .result {
   margin-top: 4rem;
   width: 50%;
